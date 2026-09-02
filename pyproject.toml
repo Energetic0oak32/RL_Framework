@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "rl-framework"
+version = "0.1.0"
+description = "Extensible framework for configuring and orchestrating reinforcement learning experiments."
+requires-python = ">=3.11"
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0"
+]
