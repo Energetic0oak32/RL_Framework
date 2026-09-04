@@ -16,5 +16,13 @@ where = ["src"]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.0"
+    "pytest",
+]
+
+ppo = [
+    "stable-baselines3>=2.9.0,<3.0",
+]
+
+cartpole = [
+    "gymnasium[classic-control]>=1.0,<2.0",
 ]

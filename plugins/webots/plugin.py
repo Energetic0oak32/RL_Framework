@@ -6,18 +6,21 @@ from rl_framework.plugins.base import (
     PluginCapabilities,
     PluginMetadata,
 )
-from rl_framework.plugins.environment import EnvironmentPlugin
 from rl_framework.plugins.registry import PluginRegistry
+from rl_framework.plugins.simulator import SimulatorPlugin
 
 
-class DummyWebotsPlugin(EnvironmentPlugin):
+class DummyWebotsPlugin(SimulatorPlugin):
 
     @property
     def metadata(self) -> PluginMetadata:
         return PluginMetadata(
             name="Test Webots",
             version="0.1.0",
-            description="Temporary Webots plugin used to test discovery.",
+            description=(
+                "Temporary Webots simulator plugin "
+                "used to test discovery."
+            ),
             author="RL Framework",
         )
 
@@ -25,10 +28,6 @@ class DummyWebotsPlugin(EnvironmentPlugin):
     def capabilities(self) -> PluginCapabilities:
         return PluginCapabilities(
             parallel_instances=True,
-            supported_action_spaces=[
-                "Discrete",
-                "Box",
-            ],
         )
 
     def config_schema(self) -> dict[str, Any]:
@@ -39,30 +38,30 @@ class DummyWebotsPlugin(EnvironmentPlugin):
             }
         }
 
-    def create(
+    def launch(
         self,
         config: dict[str, Any],
         instances: int = 1,
     ) -> Any:
 
         return {
-            "type": "dummy_webots_environment",
+            "type": "dummy_webots_simulator",
             "instances": instances,
             "config": config,
         }
 
     def close(
         self,
-        environment: Any,
+        simulator: Any,
     ) -> None:
 
-        print("Dummy Webots environment closed.")
+        print("Dummy Webots simulator closed.")
 
 
 def register(
     registry: PluginRegistry,
 ) -> None:
 
-    registry.register_environment(
+    registry.register_simulator(
         DummyWebotsPlugin()
     )

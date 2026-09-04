@@ -4,6 +4,7 @@ from typing import Dict
 
 from .algorithm import AlgorithmPlugin
 from .environment import EnvironmentPlugin
+from .simulator import SimulatorPlugin
 
 
 class PluginRegistry:
@@ -13,11 +14,13 @@ class PluginRegistry:
     Mantém separados:
     - plugins de algoritmo
     - plugins de ambiente
+    - plugins de simulador
     """
 
     def __init__(self) -> None:
         self._algorithms: Dict[str, AlgorithmPlugin] = {}
         self._environments: Dict[str, EnvironmentPlugin] = {}
+        self._simulators: Dict[str, SimulatorPlugin] = {}
 
     # ============================================================
     # Algorithm plugins
@@ -94,14 +97,53 @@ class PluginRegistry:
         return list(self._environments.values())
 
     # ============================================================
+    # Simulator plugins
+    # ============================================================
+
+    def register_simulator(
+        self,
+        plugin: SimulatorPlugin,
+    ) -> None:
+
+        name = plugin.metadata.name
+
+        if name in self._simulators:
+            raise ValueError(
+                f"Simulator plugin '{name}' is already registered."
+            )
+
+        self._simulators[name] = plugin
+
+    def get_simulator(
+        self,
+        name: str,
+    ) -> SimulatorPlugin:
+
+        try:
+            return self._simulators[name]
+
+        except KeyError:
+            raise KeyError(
+                f"Simulator plugin '{name}' was not found."
+            ) from None
+
+    def simulators(
+        self,
+    ) -> list[SimulatorPlugin]:
+
+        return list(self._simulators.values())
+
+    # ============================================================
     # General
     # ============================================================
 
     def clear(self) -> None:
         """
         Remove todos os plugins registrados.
+
         Útil principalmente para testes.
         """
 
         self._algorithms.clear()
         self._environments.clear()
+        self._simulators.clear()

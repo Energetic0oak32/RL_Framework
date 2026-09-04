@@ -51,3 +51,29 @@ class AlgorithmPlugin(BasePlugin):
         Salva o modelo treinado.
         """
         pass
+    
+    @abstractmethod
+    def load(
+        self,
+        path: str,
+        environment: Any | None = None,
+    ) -> Any:
+        """
+        Carrega um modelo previamente salvo.
+        """
+
+        pass
+
+
+    @abstractmethod
+    def predict(
+        self,
+        model: Any,
+        observation: Any,
+        deterministic: bool = True,
+    ) -> Any:
+        """
+        Produz uma ação usando um modelo treinado.
+        """
+
+        pass

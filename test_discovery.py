@@ -17,6 +17,7 @@ results = discovery.discover()
 
 
 print()
+
 print("Plugin loading results")
 print("======================")
 
@@ -32,6 +33,7 @@ for result in results:
 
 
 print()
+
 print("Algorithms")
 print("==========")
 
@@ -44,10 +46,24 @@ for plugin in registry.algorithms():
 
 
 print()
+
 print("Environments")
 print("============")
 
 for plugin in registry.environments():
+
+    print(
+        plugin.metadata.name,
+        plugin.metadata.version,
+    )
+
+
+print()
+
+print("Simulators")
+print("==========")
+
+for plugin in registry.simulators():
 
     print(
         plugin.metadata.name,
